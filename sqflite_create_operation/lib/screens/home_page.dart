@@ -5,7 +5,7 @@ import '../database/data_model.dart';
 import '../database/sqflite_database.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key,});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,10 +14,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DB db = DB();
   TextEditingController nameController = TextEditingController();
+    TextEditingController editNameController = TextEditingController();
   List<DataModel> datas = [];
-
-  int ? index;
-
+  int? key;
 
   @override
   void initState() {
@@ -64,8 +63,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-
 
   AppBar createAppBar() {
     return AppBar(
@@ -121,10 +118,10 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: datas.length,
-                  
+
                   // separatorBuilder: (context, index) => Divider(
                   //   color: Colors.grey,
                   // ),
@@ -139,11 +136,10 @@ class _HomePageState extends State<HomePage> {
                               child: InkWell(
                                   onTap: () {
                                     //Edit function execute here.
-                                
                                   },
                                   child: IconButton(
                                       onPressed: () {
-                                        editValue(index);
+                                        editValue(datas[index].name);
                                       },
                                       icon: Icon(Icons.edit))),
                             ),
@@ -180,20 +176,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void editValue(int index) {
+  void editValue(String name) {
+    editNameController.text = name;
     showDialog(
+      
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          
           title: Text("Edit"),
           content: TextFormField(
-            controller: nameController,
+            controller: editNameController,
             decoration: InputDecoration(
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                hintText: "Edit Your Note",
-                labelStyle: TextStyle(fontSize: 22, color: Colors.green),
-                ),
+              hintText: 'Edit Name',
+              labelStyle: TextStyle(fontSize: 22, color: Colors.green),
+            ),
           ),
         );
       },

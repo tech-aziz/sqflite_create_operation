@@ -38,4 +38,10 @@ class DB{
       return datas.map((e) => DataModel.fromMap(e)).toList();
       
   }
+
+
+  Future<void> update(DataModel dataModel, int id)async{
+      final Database db = await initDb();
+      await db.update("MyTable", dataModel.toMap(), where: "id=?",whereArgs: [id]);
+  }
 }

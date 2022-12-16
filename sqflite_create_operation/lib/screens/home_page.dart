@@ -5,7 +5,9 @@ import '../database/data_model.dart';
 import '../database/sqflite_database.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key,});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,9 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DB db = DB();
   TextEditingController nameController = TextEditingController();
-    TextEditingController editNameController = TextEditingController();
+  TextEditingController editNameController = TextEditingController();
   List<DataModel> datas = [];
-  int? key;
 
   @override
   void initState() {
@@ -179,19 +180,33 @@ class _HomePageState extends State<HomePage> {
   void editValue(String name) {
     editNameController.text = name;
     showDialog(
-      
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          
           title: Text("Edit"),
           content: TextFormField(
             controller: editNameController,
             decoration: InputDecoration(
-              hintText: 'Edit Name',
+              hintText: 'Update',
               labelStyle: TextStyle(fontSize: 22, color: Colors.green),
             ),
           ),
+          actions: <Widget>[
+            new ElevatedButton(
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true)
+                    .pop(false); // dismisses only the dialog and returns false
+              },
+              child: Text('No'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true)
+                    .pop(true); // dismisses only the dialog and returns true
+              },
+              child: Text('Yes'),
+            ),
+          ],
         );
       },
     );
